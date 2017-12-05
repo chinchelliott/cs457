@@ -10,6 +10,7 @@ typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
 void displayValue(FILE *fp, void *s);
 int valComp(void *v, void *w);
+collection *createCollection(FILE *, FILE *);
 
 int main(int argc,char **argv) {
 
@@ -23,40 +24,10 @@ int main(int argc,char **argv) {
     queries = fopen(argv[2],"r");
     output = fopen("result.txt", "w");
 
-    int docCount = 0;
 
-    char *token;
-    Printer print;
-    Comparator comp;
-    print = displayValue;
-    comp = valComp;
+    collection *db = createCollection(data, output);
+    collectionStats(output, db);
 
-    collection *collect = newCollection("final",print,comp);
-
-// while (!eof(data)) {
-int ch = fgetc(data);
-
-while (!feof(data)) {
-    //inner loop for document
-    document *myDoc = newDocument(docCount, print);
-    while (ch !='\n') {
-        ungetc(ch,data);
-        token = readToken(data);
-        field *myField = newField(token);
-        ch = fgetc(data);
-        //line = readToken(data);
-        //displayValue(output,myField);
-        docInsert(myDoc,myField);
-    }
-    displayDocument(output,myDoc);
-    collectionInsert(collect, myDoc);
-    docCount++;
-    fprintf(output,"\n");
-    ch = fgetc(data);
-}
-
-//displayCollection(output, collect);
-collectionStats(output, collect);
 
 return 0;
 }
@@ -71,4 +42,38 @@ int valComp(void *v, void *w) {
 // //kept simple for now. will have to change obviously
 void displayValue(FILE *fp, void *s) {
 	fprintf(fp, "%s:%s", getKey(s), getValue(s));
+}
+
+collection *createCollection(FILE *data, FILE *output) {
+    int docCount = 0;
+
+    char *token;
+    Printer print;
+    Comparator comp;
+    print = displayValue;
+    comp = valComp;
+
+    collection *collect = newCollection("final",print,comp);
+
+    int ch = fgetc(data);
+
+    //outer loop for collection
+    while (!feof(data)) {
+    document *myDoc = newDocument(docCount, print);
+    //inner loop for document
+    while (ch !='\n') {
+        ungetc(ch,data);
+        token = readToken(data);
+        field *myField = newField(token);
+        ch = fgetc(data);
+        docInsert(myDoc,myField);
+    }
+    displayDocument(output,myDoc);
+    collectionInsert(collect, myDoc);
+    docCount++;
+    fprintf(output,"\n");
+    ch = fgetc(data);
+    }
+
+    return collect;
 }
