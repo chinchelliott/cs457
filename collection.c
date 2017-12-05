@@ -9,15 +9,19 @@ collection *newCollection(char *n, void (*d)(FILE *,void *),int (*c)(void *,void
 		exit(-1);
 	}
     items->name = n;
-    items->documents = newBST(d, c);
+    items->documents = newRBT(d, c);
     return items;
 }
 
 
 void collectionInsert(collection *c, document *d) {
-    insertBST(c->documents, d);
+    insertRBT(c->documents, d);
 }
 
 void displayCollection(FILE *fp, collection *c) {
-    displayBST(fp, c->documents);
+    displayRBT(fp, c->documents);
+}
+
+void collectionStats(FILE *fp, collection *c) {
+    statisticsRBT(c->documents, fp);
 }

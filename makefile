@@ -1,4 +1,4 @@
-OBJS = myNoSQL.o scanner.o field.o document.o sll.o collection.o bst.o queue.o
+OBJS = myNoSQL.o scanner.o field.o document.o sll.o collection.o bst.o queue.o rbt.o
 OOPTS = -Wall -Wextra -g -std=c99 -c
 LOPTS = -Wall -Wextra -g -std=c99
 
@@ -28,7 +28,10 @@ queue.o: queue.c queue.h sll.h
 bst.o: bst.c bst.h queue.h
 	gcc $(OOPTS) bst.c
 
-collection.o: collection.c collection.h bst.h document.h
+rbt.o: rbt.c rbt.h bst.h
+	gcc $(OOPTS) rbt.c
+
+collection.o: collection.c collection.h rbt.h document.h
 	gcc $(OOPTS) collection.c
 
 clean:

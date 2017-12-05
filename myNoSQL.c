@@ -49,12 +49,14 @@ while (!feof(data)) {
         docInsert(myDoc,myField);
     }
     displayDocument(output,myDoc);
+    collectionInsert(collect, myDoc);
     docCount++;
     fprintf(output,"\n");
     ch = fgetc(data);
 }
 
-displayCollection(output, collect);
+//displayCollection(output, collect);
+collectionStats(output, collect);
 
 return 0;
 }

@@ -97,8 +97,6 @@ bstNode *findBSTNode(bst *t,void *val) {
 	}
 	x = t->root;
 	while (x != NULL) {
-		//t->display(stdout,x->value);
-		//t->display(stdout,val);
 		if (t->compare(val,x->value) < 0) {
 			x = x->left;
 		}
@@ -110,7 +108,6 @@ bstNode *findBSTNode(bst *t,void *val) {
 				return 0;
 			}
 			else {
-			//t->display(stdout,x->value);
 			return x;
 			}
 		}
@@ -143,40 +140,45 @@ return temp;
 
 void pruneBSTNode(bst *t,bstNode *n) {
 
-	t->display(stdout,n->value);
-	bstNode *p = n->parent;
-	t->display(stdout,p->value);
-	if (p == NULL) {
-		printf("parent is apparently null\n");
+	if (t->size == 1) {
+		t->root = 0;
+		return;
 	}
+	//t->display(stdout,n->value);
+	bstNode *p = n->parent;
+	//t->display(stdout,p->value);
 	if (predecessorExists(p) && (t->compare(p->left->value,n->value) == 0)) {
 		p->left = NULL;
 	}
 	else {
 		p->right = NULL;
 	}
-	
+	t->size--;
 }
 
 void statisticsBST(bst *t,FILE *fp) {
 
 	int max = maxHeight(t->root);
 	int min = minHeight(t->root);
-	fprintf(fp,"Minimum Depth: %d\n",min);
-	fprintf(fp,"Maximum Depth: %d",max);
+	fprintf(fp,"Minimum depth: %d\n",min);
+	fprintf(fp,"Maximum depth: %d",max);
 	fprintf(fp,"\n");
 }
 
 void displayBST(FILE *fp,bst *t) {
 
+	fprintf(fp,"0:");
 	queue *q = newQueue(t->display);
 	bstNode *x = malloc(sizeof(bstNode));
+	if (t->root == 0) {
+		fprintf(fp,"\n");
+		return;
+	}
 	enqueue(q,t->root);
 	enqueue(q,NULL);
 	int height = maxHeight(t->root);
 	int i = 1;
 	x = dequeue(q);
-	fprintf(fp,"0:");
 	while (sizeQueue(q) > 0) {
 		
 		if ((x == NULL) && (sizeQueue(q)>0)) {
@@ -291,8 +293,11 @@ int maxHeight(bstNode *x) {
 	if (x == NULL) {
 		return 0;
 	}
+	//printf("max height test 1\n");
 	int lDepth = maxHeight(x->left);
+		//printf("max height test 2\n");
 	int rDepth = maxHeight(x->right);
+		//printf("max height test 3\n");
 	
 	if (lDepth > rDepth) return (lDepth+1);
 	else return (rDepth+1);
