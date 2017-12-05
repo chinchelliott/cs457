@@ -4,7 +4,7 @@
 * Assignment 2
 *
 * Implementation for binary search tree class
-* 
+*
 *
 *************************************************/
 
@@ -30,7 +30,7 @@ int maxHeight(bstNode *x);
 int minHeight(bstNode *x);
 
 bst *newBST(void (*d)(FILE *,void *),int (*c)(void *,void *)) {
-	
+
 	bst *tree = malloc(sizeof(bst));
 	if (tree == 0) {
 		fprintf(stderr, "out of memory");
@@ -41,18 +41,18 @@ bst *newBST(void (*d)(FILE *,void *),int (*c)(void *,void *)) {
 	tree->size = 0;
 	return tree;
 }
- 
+
 bstNode *insertBST(bst *t,void *val) {
     bstNode *y = malloc(sizeof(bstNode));
     bstNode *x = malloc(sizeof(bstNode));
     bstNode *newNode = newBSTNode(val);
-    
+
     if (t->root == NULL) {
     	t->root = newNode;
     	t->root->parent = newNode;
     	return newNode;
     }
-    
+
     y = NULL;
     x = t->root;
     while (x != NULL) {
@@ -78,8 +78,8 @@ bstNode *insertBST(bst *t,void *val) {
     t->size++;
 	return newNode;
 }
- 
-    
+
+
 int findBST(bst *t,void *v) {
 	if (findBSTNode(t,v) != NULL) {
 		return 1;
@@ -90,7 +90,7 @@ int findBST(bst *t,void *v) {
 }
 
 bstNode *findBSTNode(bst *t,void *val) {
-	
+
 	bstNode *x = malloc(sizeof(bstNode));
 	if (t->root == NULL) {
 		return NULL;
@@ -117,14 +117,14 @@ bstNode *findBSTNode(bst *t,void *val) {
 
 
 bstNode *swapToLeafBSTNode(bstNode *n) {
-	
+
 	bstNode *temp = malloc(sizeof(bstNode));
 	temp = n;
-	
+
 	if (!predecessorExists(temp) && !successorExists(temp)) {
 			return temp;
 		}
-	
+
 	if (predecessorExists(temp)) {
 		temp = findPredecessor(temp->left);
 	}
@@ -133,7 +133,7 @@ bstNode *swapToLeafBSTNode(bstNode *n) {
 	}
 	n->value = temp->value;
 	temp = swapToLeafBSTNode(temp);
-	
+
 return temp;
 }
 
@@ -180,7 +180,7 @@ void displayBST(FILE *fp,bst *t) {
 	int i = 1;
 	x = dequeue(q);
 	while (sizeQueue(q) > 0) {
-		
+
 		if ((x == NULL) && (sizeQueue(q)>0)) {
 			fprintf(fp,"\n");
 			enqueue(q,NULL);
@@ -265,14 +265,14 @@ bstNode *newBSTNode(void *v) {
 }
 
 bstNode *swapNodes(bstNode *a, bstNode *b) {
-	
+
 	a->value = b->value;
 	//a = b;
 	return a;
 }
 
 void helpDisplay(FILE *fp,bst *t, bstNode *x) {
-	
+
 	fprintf(fp," ");
 	if (isLeaf(x)) {
 		fprintf(fp,"=");
@@ -298,10 +298,10 @@ int maxHeight(bstNode *x) {
 		//printf("max height test 2\n");
 	int rDepth = maxHeight(x->right);
 		//printf("max height test 3\n");
-	
+
 	if (lDepth > rDepth) return (lDepth+1);
 	else return (rDepth+1);
-	
+
 }
 
 int minHeight(bstNode *x) {
@@ -309,13 +309,13 @@ int minHeight(bstNode *x) {
 	if (x->right == NULL || x->left == NULL) {
 		return 1;
 	}
-	
+
 	int lDepth = minHeight(x->left);
 	int rDepth = minHeight(x->right);
-	
+
 	if (lDepth < rDepth) return (lDepth+1);
 	else return (rDepth+1);
-	
+
 }
 
 
@@ -337,7 +337,7 @@ bool isLeft(bstNode *x) {
 		return false;
 	}
 }
- 
+
 bool isRight(bstNode *x) {
 	if (x->parent->right == x) {
 		return true;
@@ -354,4 +354,21 @@ bool isRoot(bstNode *x) {
 	else {
 		return false;
 	}
+}
+
+queue *findAllBSTNodes(bst *t,void *val) {
+
+	queue *q = newQueue(t->display);
+    inorder(t,val,t->root,q);
+    return q;
+}
+
+
+void inorder(bst *t, void *val, bstNode *n, queue *q) {
+   if(n != NULL) {
+      inorder(t, val, n->left, q);
+      if (t->compare(val, n->value) == 0) enqueue(q,n->value);
+      // printf("%d ",root->data);
+      inorder(t, val, n->right, q);
+   }
 }
