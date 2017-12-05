@@ -28,12 +28,11 @@ int main(int argc,char **argv) {
     print = displayValue;
 
 // while (!eof(data)) {
-    int ch = fgetc(data);
+int ch = fgetc(data);
 
-
+while (!feof(data)) {
     //inner loop for document
     document *myDoc = newDocument(docCount, print);
-
     while (ch !='\n') {
         ungetc(ch,data);
         token = readToken(data);
@@ -44,7 +43,9 @@ int main(int argc,char **argv) {
         docInsert(myDoc,myField);
     }
     displayDocument(output,myDoc);
-
+    fprintf(output,"\n");
+    ch = fgetc(data);
+}
 
 return 0;
 }

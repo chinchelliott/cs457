@@ -1,6 +1,6 @@
 DocID:50 Spec1:61 Gender:2 Salary:68800
 Salary:66200 DocID:5 Spec1:96 Dept:5 State:40 City:2
-Salary:66200 DocID:5 Dept:6 State:40 City:2 
+Salary:66200 DocID:5 Dept:6 State:40 City:2
 Salary:84600 DocID:40 State:48 Spec1:46 Gender:2 Dept:4
 Dept:4 DocID:4 Salary:181800 Age:35
 DocID:10 Spec1:66 Salary:56300 City:1 Age:54 Gender:1
