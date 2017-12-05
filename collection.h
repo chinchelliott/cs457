@@ -7,7 +7,7 @@ typedef struct collection {
     char *name;
 } collection;
 
-collection *newCollection(char *);
+collection *newCollection(char *, void (*d)(FILE *,void *),int (*c)(void *,void *));
 void collectionInsert(void);
 
 #endif

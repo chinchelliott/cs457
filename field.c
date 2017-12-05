@@ -1,10 +1,15 @@
 #include <stdlib.h>
+#include <string.h>
 #include "field.h"
 
-field *newField(char *k, char *v) {
+field *newField(char *token) {
     field *items = malloc(sizeof(field));
-    items->key = k;
-    items->value = v;
+
+    items->key = strtok(token, ":");
+    items->value = strtok(NULL, ":");
+
+    // items->key = k;
+    // items->value = v;
     return items;
 }
 

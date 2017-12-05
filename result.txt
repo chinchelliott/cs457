@@ -1,0 +1,1 @@
+[DocID:50,Spec1:61,Gender:2,Salary:68800]

@@ -3,10 +3,11 @@
 #include <string.h>
 #include "scanner.h"
 #include "field.h"
+#include "document.h"
 
 typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
-
+void displayValue(FILE *fp, void *s);
 
 int main(int argc,char **argv) {
 
@@ -15,45 +16,47 @@ int main(int argc,char **argv) {
 		exit(-1);
 	}
 
-    FILE *data, *queries;
+    FILE *data, *queries, *output;
     data = fopen(argv[1],"r");
     queries = fopen(argv[2],"r");
+    output = fopen("result.txt", "w");
 
-    comp = stringComparator;
-	display = displayValue;
+    int docCount = 0;
 
     char *token;
+    Printer print;
+    print = displayValue;
 
 // while (!eof(data)) {
     int ch = fgetc(data);
 
 
     //inner loop for document
+    document *myDoc = newDocument(docCount, print);
+
     while (ch !='\n') {
         ungetc(ch,data);
         token = readToken(data);
-        printf("token is %s\n", token);
+        field *myField = newField(token);
         ch = fgetc(data);
         //line = readToken(data);
+        //displayValue(output,myField);
+        docInsert(myDoc,myField);
     }
+    displayDocument(output,myDoc);
 
-    // String namepass[] = strLine.split(":");
-    // String name = namepass[0];
-    // String pass = namepass[1];
 
 return 0;
 }
 
 
-int stringComparator(void *v, void *w) {
-	char *val1 = getString(v);
-	char *val2 = getString(w);
-	return strcmp(val1,val2);
-}
+// int stringComparator(void *v, void *w) {
+// 	char *val1 = getString(v);
+// 	char *val2 = getString(w);
+// 	return strcmp(val1,val2);
+// }
 
-//kept simple for now. will have to change obviously
+// //kept simple for now. will have to change obviously
 void displayValue(FILE *fp, void *s) {
-    // char *key = getKey(s);
-    // char *val = getValue(s);
-	fprintf(fp, "%s: %s", getKey(s), getValue(s));
+	fprintf(fp, "%s:%s", getKey(s), getValue(s));
 }

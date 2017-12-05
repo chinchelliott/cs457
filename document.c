@@ -1,19 +1,21 @@
+#include <stdlib.h>
 #include "document.h"
 
 
-document *newDocument(int i) {
+document *newDocument(int i, void (*d)(FILE *, void *)) {
     document *items = malloc(sizeof(document));
     items->sysid = i;
     items->version = 0;
     items->latest = 0;
-    items->fields = newDLL(void, void);
+    items->fields = newSLL(d);
+    return items;
 }
 
 
-void docInsert(document *doc, char *k, char *val) {
+void docInsert(document *doc, field *f) {
+    insertSLL(doc->fields, f);
+}
 
-
-    field *myField = newField(k,v);
-    insertBST(doc->fields, myField);
-
+void displayDocument(FILE *fp,document *doc) {
+    displaySLL(fp, doc->fields);
 }

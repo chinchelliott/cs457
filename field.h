@@ -6,7 +6,7 @@ typedef struct field {
     char *value;
 } field;
 
-field *newField(char *,char *);
+field *newField(char *);
 char *getKey(field *);
 char *getValue(field *);
 

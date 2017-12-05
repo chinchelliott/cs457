@@ -1,11 +1,12 @@
 #ifndef __DB_DOC__
 #define __DB_DOC__
 
-#include
+#include "sll.h"
+#include "field.h"
 
 typedef struct document {
 
-    dll *fields; //list of key pair values, possibly dll?
+    sll *fields; //list of key pair values, possibly dll?
     int size;
     int sysid;
     int version;
@@ -15,9 +16,9 @@ typedef struct document {
 
 } document;
 
-document *newDocument(void);
-void docInsert(document *, char *, char *);
-
+document *newDocument(int i, void (*d)(FILE *, void *));
+void docInsert(document *, field *);
+void displayDocument(FILE *,document *);
 
 
 
