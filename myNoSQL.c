@@ -4,10 +4,12 @@
 #include "scanner.h"
 #include "field.h"
 #include "document.h"
+#include "collection.h"
 
 typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
 void displayValue(FILE *fp, void *s);
+int valComp(void *v, void *w);
 
 int main(int argc,char **argv) {
 
@@ -25,7 +27,11 @@ int main(int argc,char **argv) {
 
     char *token;
     Printer print;
+    Comparator comp;
     print = displayValue;
+    comp = valComp;
+
+    collection *collect = newCollection("final",print,comp);
 
 // while (!eof(data)) {
 int ch = fgetc(data);
@@ -43,19 +49,22 @@ while (!feof(data)) {
         docInsert(myDoc,myField);
     }
     displayDocument(output,myDoc);
+    docCount++;
     fprintf(output,"\n");
     ch = fgetc(data);
 }
+
+displayCollection(output, collect);
 
 return 0;
 }
 
 
-// int stringComparator(void *v, void *w) {
-// 	char *val1 = getString(v);
-// 	char *val2 = getString(w);
-// 	return strcmp(val1,val2);
-// }
+int valComp(void *v, void *w) {
+	int val1 = getID(v);
+	int val2 = getID(w);
+	return (val1 - val2);
+}
 
 // //kept simple for now. will have to change obviously
 void displayValue(FILE *fp, void *s) {

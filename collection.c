@@ -14,8 +14,10 @@ collection *newCollection(char *n, void (*d)(FILE *,void *),int (*c)(void *,void
 }
 
 
-void collectionInsert(void) {
+void collectionInsert(collection *c, document *d) {
+    insertBST(c->documents, d);
+}
 
-    insertBST(doc->fields, myField);
-
+void displayCollection(FILE *fp, collection *c) {
+    displayBST(fp, c->documents);
 }

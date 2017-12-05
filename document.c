@@ -19,3 +19,7 @@ void docInsert(document *doc, field *f) {
 void displayDocument(FILE *fp,document *doc) {
     displaySLL(fp, doc->fields);
 }
+
+int getID(document *doc) {
+    return doc->sysid;
+}

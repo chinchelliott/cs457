@@ -18,7 +18,7 @@ queue *newQueue(void (*d)(FILE *,void *)) {
 		fprintf(stderr, "out of memory");
 		exit(-1);
 	}
-	sll *newList = newSLL(d);	
+	sll *newList = newSLL(d);
 	items->list = newList;
 	items->length = 0;
 	return items;
@@ -26,7 +26,7 @@ queue *newQueue(void (*d)(FILE *,void *)) {
 
 //enqueue items to back of list
 void enqueue(queue *items,void *value) {
-	insertSLL(items->list,items->length,value);
+	insertSLL(items->list,value);
 	items->length += 1;
 }
 
@@ -44,7 +44,7 @@ void *peekQueue(queue *items) {
 	value = getSLL(items->list,0);
 	return value;
 }
- 
+
 //returns size of queue
 int sizeQueue(queue *items) {
 	return items->length;
