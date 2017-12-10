@@ -367,8 +367,15 @@ queue *findAllBSTNodes(bst *t,void *val) {
 void inorder(bst *t, void *val, bstNode *n, queue *q) {
    if(n != NULL) {
       inorder(t, val, n->left, q);
-      if (t->compare(val, n->value) == 0) enqueue(q,n->value);
+      if (t->compare(val, n->value) == 0) {
+		  // enqueue(q,n->value);
+		  enqueue(q,n);
+		}
       // printf("%d ",root->data);
       inorder(t, val, n->right, q);
    }
+}
+
+bstNode *getRoot(bst *t) {
+	return t->root;
 }

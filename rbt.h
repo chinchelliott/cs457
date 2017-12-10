@@ -4,17 +4,18 @@
 * Assignment 2
 *
 * Header file for binary search tree
-* 
+*
 *
 *************************************************/
 
 
 	#include <stdio.h>
     #include "bst.h"
+	#include "queue.h"
 
     #ifndef __RBT_INCLUDED__
     #define __RBT_INCLUDED__
-    
+
 typedef struct rbt
         {
         bst *tree;
@@ -31,5 +32,8 @@ typedef struct rbt
     void statisticsRBT(rbt *,FILE *);
     void displayRBT(FILE *,rbt *);
     void checkRBT(rbt *);               //optional
-    
+	void updateRBTComp(rbt *t, int (*c)(void *,void *));
+	void RBTinorder(rbt *t, void *, queue *q, int (*c)(void *,void *));
+
+
     #endif

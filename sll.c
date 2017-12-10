@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sll.h"
+#include "field.h"
 
 //constructor for SLL
 sll *newSLL(void (*d)(FILE *, void *)){
@@ -226,4 +227,23 @@ void displaySLL(FILE *fp, sll *items) {
 		}
 	}
 	fprintf(fp,"]");
+}
+
+void *findSLL(sll *items, void *com) {
+	// printf("in find SLL\n");
+	char *comp = com;
+	sllnode *temp = malloc(sizeof(sllnode));
+	temp = items->head;
+	// void *val = 0;
+	field *iField;
+	while (temp->next) {
+		iField = temp->value;
+		if (strcmp(getKey(iField),comp) == 0) {
+			// printf("value is %s\n", getValue(iField));
+			return iField;
+		}
+		temp = temp->next;
+	}
+	return NULL;
+	// val = temp->value;
 }

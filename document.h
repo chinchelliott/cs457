@@ -20,6 +20,7 @@ document *newDocument(int i, void (*d)(FILE *, void *));
 void docInsert(document *, field *);
 void displayDocument(FILE *,document *);
 int getID(document *);
+field *getField(document *doc, char *field);
 
 
 

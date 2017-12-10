@@ -40,6 +40,7 @@
     extern void statisticsBST(bst *,FILE *);
     extern void displayBST(FILE *,bst *);
     extern void checkBST(bst *);                //optional
+    bstNode *getRoot(bst *t);
 
 
     //new functions! woo!

@@ -23,3 +23,9 @@ void displayDocument(FILE *fp,document *doc) {
 int getID(document *doc) {
     return doc->sysid;
 }
+
+field *getField(document *doc, char *field) {
+    return findSLL(doc->fields, field);
+    // return f;
+    // return -1;
+}

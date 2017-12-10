@@ -1,4 +1,5 @@
 #include "collection.h"
+#include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,4 +25,12 @@ void displayCollection(FILE *fp, collection *c) {
 
 void collectionStats(FILE *fp, collection *c) {
     statisticsRBT(c->documents, fp);
+}
+
+void updateComp(collection *collect, int (*c)(void *,void *)) {
+    updateRBTComp(collect->documents, c);
+}
+
+void searchCollection(collection *c, void *val, queue *q, int (*comp)(void *,void *)) {
+    RBTinorder(c->documents, val, q, comp);
 }

@@ -8,6 +8,7 @@
 *************************************************/
 
 #include <stdio.h>
+#include <string.h>
 
 #ifndef __SLL_INCLUDED__
 #define __SLL_INCLUDED__
@@ -37,5 +38,6 @@ void unionSLL(sll *recipient, sll *donor);	//merge two SLLS into one
 void *getSLL(sll *items, int index);	//get value at the index
 int sizeSLL(sll *items);
 void displaySLL(FILE *, sll *items);
+void *findSLL(sll *items, void *comp);
 
 #endif

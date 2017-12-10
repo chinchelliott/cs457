@@ -7,7 +7,7 @@ all: nosql
 nosql: $(OBJS)
 	gcc $(LOPTS) -o nosql $(OBJS)
 
-myNoSQL.o: myNoSQL.c scanner.h field.h document.h collection.o
+myNoSQL.o: myNoSQL.c scanner.h field.h document.h collection.o queue.h
 	gcc $(OOPTS) myNoSQL.c
 
 scanner.o: scanner.c scanner.h
@@ -16,10 +16,10 @@ scanner.o: scanner.c scanner.h
 field.o: field.c field.h
 	gcc $(OOPTS) field.c
 
-sll.o: sll.c sll.h
+sll.o: sll.c sll.h field.h
 	gcc $(OOPTS) sll.c
 
-document.o : document.c document.h sll.h field.h
+document.o : document.c document.h sll.h field.h queue.h
 	gcc $(OOPTS) document.c
 
 queue.o: queue.c queue.h sll.h
@@ -28,10 +28,10 @@ queue.o: queue.c queue.h sll.h
 bst.o: bst.c bst.h queue.h
 	gcc $(OOPTS) bst.c
 
-rbt.o: rbt.c rbt.h bst.h
+rbt.o: rbt.c rbt.h bst.h queue.h
 	gcc $(OOPTS) rbt.c
 
-collection.o: collection.c collection.h rbt.h document.h
+collection.o: collection.c collection.h rbt.h document.h queue.h
 	gcc $(OOPTS) collection.c
 
 clean:

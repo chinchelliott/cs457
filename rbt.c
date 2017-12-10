@@ -153,13 +153,13 @@ void checkRBT(rbt *);               //optional
 //private functions
 
 void rbtFixup(bstNode *x,bst *t) {
-	
+
 	//printf("testing statement 1\n");
 	int i = 1;
 	while (i==1) {
 		if (x == t->root) {
 			//printf("testing statement 2\n");
-			i = 0; 
+			i = 0;
 			colorBlack(t->root);
 			return;
 		}
@@ -195,7 +195,7 @@ void rbtFixup(bstNode *x,bst *t) {
 					//^^this works.... do not change, but RL and LR are different
 				}
 			}
-			
+
 			colorBlack(parent(x));
 					//printf("idk\n");
 			colorRed(grandparent(x));
@@ -259,24 +259,25 @@ void decreaseFrequency(bstNode *v) {
 int compareRBTValue(void *a,void *b) {
 	rbtValue *v1 = a;
 	rbtValue *v2 = b;
+	// printf("trying to compare RBT values");
 	return v1->compare(v1->value,v2->value);
 }
 
 void displayRBTValue(FILE *fp,void *v) {
-	
+
 	//print frequency if > 1
 	if (v == NULL) return;
 	rbtValue *val = v;
 	val->display(fp,val->value);
-	if (val->frequency > 1) {
-		fprintf(fp,"-%d",val->frequency);
-	}
-	if (val->color == 0) {
-		fprintf(fp,"-R");
-	}
-	else {
-		fprintf(fp,"-B");
-	}
+	// if (val->frequency > 1) {
+	// 	fprintf(fp,"-%d",val->frequency);
+	// }
+	// if (val->color == 0) {
+	// 	fprintf(fp,"-R");
+	// }
+	// else {
+	// 	fprintf(fp,"-B");
+	// }
 }
 
 bool isBlack(bstNode *n) {
@@ -362,7 +363,7 @@ bool treeRoot(bstNode *n) {
 }
 
 bstNode *lrRotate(bstNode *x) {
-	
+
 	//implementation 1
 	/*if (x->left != NULL) {
 		x->left->parent = x->parent;
@@ -373,7 +374,7 @@ bstNode *lrRotate(bstNode *x) {
 	x->left->parent = x;
 	x->parent->left = x;
 	return x->left;*/
-	
+
 	//implementation 2
 	if (x->left != NULL) {
 		x->left->parent = x->parent;
@@ -385,9 +386,9 @@ bstNode *lrRotate(bstNode *x) {
 	x->parent->left = x;
 	return x->left;
 }
-	
+
 bstNode *rlRotate(bstNode *x) {
-	
+
 	//implementation 1
 	/*if (x->right != NULL) {
 		x->right->parent = x->parent;
@@ -398,8 +399,8 @@ bstNode *rlRotate(bstNode *x) {
 	x->right->parent = x;
 	x->parent->right = x;
 	return x->right;*/
-	
-	
+
+
 	//implementation 2
 	if (x->right != NULL) {
 		x->right->parent = x->parent;
@@ -414,11 +415,11 @@ bstNode *rlRotate(bstNode *x) {
 
 void llRotate(bstNode *x,bst *t) {
 
-	 
+
 	 if (x->right != NULL) {
 	 	 x->right->parent = x->parent;
 	 }
-	 
+
 	 if (x->parent == t->root) {
 	 	x->parent->parent = x;
 	 	t->root = x;
@@ -434,22 +435,22 @@ void llRotate(bstNode *x,bst *t) {
 	 x->right = x->parent;
 	 x->parent = x->parent->parent;
 	 x->right->parent = x;
-	 
+
 }
-	
-	
+
+
 void rrRotate(bstNode *x,bst *t) {
-	 
-	 
+
+
 	   if (x->left != NULL) {
 	 	 x->left->parent = x->parent;
 	 }
-	 
+
 	 if (x->parent == t->root) {
 	 	x->parent->parent = x;
 	 	t->root = x;
 	 }
-	 
+
 	 else if (isLeftChild(x->parent)) {
 	 	x->parent->parent->left = x;
 	 }
@@ -463,13 +464,13 @@ void rrRotate(bstNode *x,bst *t) {
 	 x->left->parent = x;
 	/*x = x->parent;
 	bool left = isLeftChild(x->parent);
-	
+
 	 if (x->left != NULL) {
 	 	 x->parent->right = x->left;
 	 	 x->parent->right->parent = x->parent;
 	 }
-	 
-	 
+
+
 	 if (left) {
 	 	x->left = x->parent;
 	 	x->left->parent = x;
@@ -482,14 +483,14 @@ void rrRotate(bstNode *x,bst *t) {
 	 	x->parent = x->parent->parent;
 	 	x->parent->right = x;
 	 }*/
-	 
 
-	 
+
+
 	 /*bstNode *temp = malloc(sizeof(bstNode));
 	 temp = x->parent->parent;
 	 temp->left = x->parent->parent->left;
 	 temp->right = x->parent->left;
-	 
+
 	 x->parent->parent = x->parent->parent->parent;
 	 if (isLeftChild(temp)) {
 	 	x->parent->parent->left = x;
@@ -499,11 +500,11 @@ void rrRotate(bstNode *x,bst *t) {
 	 }
 	 x->parent->left = temp;
 	 temp->parent = x->parent;*/
-	 
-	 
+
+
 }
-	
-	
+
+
 bool hasUncle (bstNode *x) {
 	if ((x->parent != NULL) && (x->parent->parent != NULL)) {
 		if (isLeftChild(x->parent) && (x->parent->parent->right != NULL)) {
@@ -520,13 +521,15 @@ bool hasUncle (bstNode *x) {
 		return false;
 	}
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+void updateRBTComp(rbt *t, int (*c)(void *,void *)) {
+	t->compare = c;
+}
+
+void RBTinorder(rbt *t, void *val, queue *q, int (*c)(void *,void *)) {
+	rbtValue *temp = newRBTValue(val,t->display,c);
+
+	//rbtValue *myValue = newRBTValue(val, t->)
+	 inorder(t->tree, temp, getRoot(t->tree), q);
+}

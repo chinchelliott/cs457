@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "field.h"
 
@@ -18,4 +19,8 @@ char *getKey(field *f) {
 }
 char *getValue(field *f) {
     return f->value;
+}
+
+void insertOperator(field *f, char o) {
+    f->op = o;
 }
