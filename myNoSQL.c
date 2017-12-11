@@ -8,6 +8,7 @@
 #include "queue.h"
 #include "bst.h"
 #include "rbt.h"
+#include "querybuilder.h"
 
 typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
@@ -16,6 +17,8 @@ int valComp(void *v, void *w);
 collection *createCollection(FILE *, FILE *);
 int fieldComp(void *fld, void *doc);
 void displayQueueValue(FILE *fp, void *s);
+void parseQuery(FILE *q, FILE *output, collection *c);
+
 
 int main(int argc,char **argv) {
 
@@ -56,6 +59,11 @@ int main(int argc,char **argv) {
     displayQueue(output2, results);
 
 //    int s = sizeQueue(results);
+    
+    FILE *queues = fopen("queries.txt", "r");
+    
+    parseQuery(queues, output2, db);
+
 
 return 0;
 }
@@ -130,4 +138,32 @@ collection *createCollection(FILE *data, FILE *output) {
     }
 
     return collect;
+}
+
+
+void parseQuery(FILE *q, FILE *output, collection *c) {
+	
+	Printer print;
+	Comparator comp;
+	print = displayValue;
+	comp = valComp;
+	
+    char *token;
+    char *op;
+	char *rest;
+    int ch = fgetc(q);
+    while (ch !='\n') {
+        while (ch !='.') {
+            ch = fgetc(q);
+        }
+        token = readToken(q);
+        op = strtok(token, "(");
+		rest = strtok(NULL, "(");
+		
+        printf("rest of token is %s\n",rest);
+        printf("operation is %s\n",op);
+		query *myQ = newQuery(op, c, print, comp);
+		createQuery(myQ, rest);
+        return;
+    }
 }

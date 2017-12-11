@@ -1,4 +1,4 @@
-OBJS = myNoSQL.o scanner.o field.o document.o sll.o collection.o bst.o queue.o rbt.o
+OBJS = myNoSQL.o scanner.o field.o document.o sll.o collection.o bst.o queue.o rbt.o querybuilder.o
 OOPTS = -Wall -Wextra -g -std=c99 -c
 LOPTS = -Wall -Wextra -g -std=c99
 
@@ -7,7 +7,7 @@ all: nosql
 nosql: $(OBJS)
 	gcc $(LOPTS) -o nosql $(OBJS)
 
-myNoSQL.o: myNoSQL.c scanner.h field.h document.h collection.o queue.h bst.h rbt.h
+myNoSQL.o: myNoSQL.c scanner.h field.h document.h collection.o queue.h bst.h rbt.h querybuilder.h
 	gcc $(OOPTS) myNoSQL.c
 
 scanner.o: scanner.c scanner.h
@@ -33,6 +33,9 @@ rbt.o: rbt.c rbt.h bst.h queue.h
 
 collection.o: collection.c collection.h rbt.h document.h queue.h
 	gcc $(OOPTS) collection.c
+
+querybuilder.o : querybuilder.c querybuilder.h collection.h document.h field.h
+	gcc $(OOPTS) querybuilder.c
 
 clean:
 	rm -f $(OBJS) nosql
