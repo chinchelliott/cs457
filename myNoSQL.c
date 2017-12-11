@@ -6,6 +6,8 @@
 #include "document.h"
 #include "collection.h"
 #include "queue.h"
+#include "bst.h"
+#include "rbt.h"
 
 typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
@@ -17,14 +19,16 @@ void displayQueueValue(FILE *fp, void *s);
 
 int main(int argc,char **argv) {
 
-    if (argc == 1) {
-		fprintf(stdout,"Number of commands: %d command, exiting program\n",argc);
-		exit(-1);
-	}
+    // if (argc == 1) {
+	// 	fprintf(stdout,"Number of commands: %d command, exiting program\n",argc);
+	// 	exit(-1);
+	// }
 
     FILE *data, *queries, *output;
-    data = fopen(argv[1],"r");
-    queries = fopen(argv[2],"r");
+    //data = fopen(argv[1],"r");
+    data = fopen("data.txt","r");
+
+    //queries = fopen(argv[2],"r");
     output = fopen("result.txt", "w");
 
     Printer print;
@@ -36,32 +40,22 @@ int main(int argc,char **argv) {
     collection *db = createCollection(data, output);
     collectionStats(output, db);
 
-    //document *comparing = newDocument(0,print);
-    //new field
-    //insert field
-    //somehow compare fields?
-
     Comparator newComp;
     newComp = fieldComp;
-    //updateComp(db, newComp);
     printf("how far do we get 0\n");
 
     char hello[8] = "DocID:50";
     field *myField = newField(hello);
     printf("how far do we get 1\n");
 
-    queue *results = newQueue(print);
-    printf("how far do we get 2\n");
-    //char *myFld = "Salary";
-    searchCollection(db,myField,results,fieldComp);
-    printf("how far do we get 3\n");
+    queue *results = newQueue(qprint);
+    searchCollection(db,myField,results,newComp);
 
     FILE *output2 = fopen("help.txt", "w");
-    printf("how far do we get 3.5\n");
 
     displayQueue(output2, results);
-    printf("how far do we get 4\n");
 
+//    int s = sizeQueue(results);
 
 return 0;
 }
@@ -76,8 +70,12 @@ int valComp(void *v, void *w) {
 
 int fieldComp(void *fld, void *doc) {
     // printf("in comparing function\n");
+    displayDocument(stdout,doc);
+    printf("\n");
     char *myfield = getKey(fld);
     field *find = getField(doc, myfield);
+    displayDocument(stdout,doc);
+    printf("\n");
     if (find == NULL) return -1;
     else {
         int x = atoi(getValue(find));
@@ -95,9 +93,9 @@ void displayValue(FILE *fp, void *s) {
 	fprintf(fp, "%s:%s", getKey(s), getValue(s));
 }
 
-void displayQueueValue(FILE *fp, void *s) {
-    bstNode *n = s;
-	displayDocument(fp,n->value);
+void displayQueueValue(FILE *fp, void *doc) {
+    void *myDoc = getRBTValue(doc);
+     displayDocument(fp,myDoc);
 }
 
 collection *createCollection(FILE *data, FILE *output) {

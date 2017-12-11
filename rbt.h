@@ -34,6 +34,8 @@ typedef struct rbt
     void checkRBT(rbt *);               //optional
 	void updateRBTComp(rbt *t, int (*c)(void *,void *));
 	void RBTinorder(rbt *t, void *, queue *q, int (*c)(void *,void *));
+    void *getRBTValue(void *in);
+
 
 
     #endif

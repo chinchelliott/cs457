@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include "bst.h"
 #include "queue.h"
-
+#include "document.h"
 
 static bstNode *newBSTNode(void *v);
 bool predecessorExists(bstNode *n);
@@ -368,8 +368,11 @@ void inorder(bst *t, void *val, bstNode *n, queue *q) {
    if(n != NULL) {
       inorder(t, val, n->left, q);
       if (t->compare(val, n->value) == 0) {
-		  // enqueue(q,n->value);
-		  enqueue(q,n);
+		  // enqueue(q,n->value); enquing a bst node that holds a document
+		  //document *temp = n;
+		  //displayDocument(stdout,n->value);
+		  //void *temp = n->value;
+		  enqueue(q,n->value);
 		}
       // printf("%d ",root->data);
       inorder(t, val, n->right, q);

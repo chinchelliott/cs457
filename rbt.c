@@ -533,3 +533,9 @@ void RBTinorder(rbt *t, void *val, queue *q, int (*c)(void *,void *)) {
 	//rbtValue *myValue = newRBTValue(val, t->)
 	 inorder(t->tree, temp, getRoot(t->tree), q);
 }
+
+void *getRBTValue(void *in) {
+    rbtValue *temp = in;
+    return temp->value;
+}
+

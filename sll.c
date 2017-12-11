@@ -95,7 +95,7 @@ void addToMiddle(sll *items, int index, sllnode *newNode) {
 //removes node from SLL, 3 cases: remove from front, remove from index, or remove from back
 void *removeSLL(sll *items, int index) {
 
- 	void *value = 0;
+ 	void *value;
 
 	if (index == 0) {
 		value = removeFromFront(items);
@@ -209,7 +209,7 @@ int sizeSLL(sll *items) {
 
 //displays SLL
 void displaySLL(FILE *fp, sll *items) {
-
+	printf("the size of this sll is %d", items->size);
 	sllnode *temp = malloc(sizeof(sllnode));
 	fprintf(fp,"[");
 	if (items->head == NULL) {
