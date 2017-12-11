@@ -23,14 +23,18 @@ typedef struct query {
     int version;
 	collection *collect;
 	void (*display)(FILE *,void *);
+	void (*qdisplay)(FILE *,void *);
 	int (*compare)(void *,void *);
+	FILE *output;
     
 } query;
 
-query *newQuery(char *, collection *col, void (*d)(FILE *, void *), int (*c)(void *,void *));
+query *newQuery(char *, collection *col, void (*d)(FILE *, void *), int (*c)(void *,void *), void (*qd)(FILE *,void *), FILE *);
 void createQuery(query *, char *);
 void insertFields(int size);
 void queryDisplay(void);
 int queryCompare(void *,void *);
+void displayQValue(FILE *fp, void *doc);
+int countComp(void *fld, void*doc);
 
 #endif /* querybuilder_h */

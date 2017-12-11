@@ -9,6 +9,7 @@
 #include "bst.h"
 #include "rbt.h"
 #include "querybuilder.h"
+#include "queue.h"
 
 typedef int (*Comparator)(void*,void*);
 typedef void (*Printer)(FILE*,void*);
@@ -45,18 +46,16 @@ int main(int argc,char **argv) {
 
     Comparator newComp;
     newComp = fieldComp;
-    printf("how far do we get 0\n");
 
-    char hello[8] = "DocID:50";
-    field *myField = newField(hello);
-    printf("how far do we get 1\n");
-
-    queue *results = newQueue(qprint);
-    searchCollection(db,myField,results,newComp);
-
-    FILE *output2 = fopen("help.txt", "w");
-
-    displayQueue(output2, results);
+//    char hello[8] = "DocID:50";
+//    field *myField = newField(hello);
+//
+//    queue *results = newQueue(qprint);
+//    searchCollection(db,myField,results,newComp);
+//
+   FILE *output2 = fopen("help.txt", "w");
+//
+//    displayQueue(output2, results);
 
 //    int s = sizeQueue(results);
     
@@ -147,23 +146,32 @@ void parseQuery(FILE *q, FILE *output, collection *c) {
 	Comparator comp;
 	print = displayValue;
 	comp = valComp;
+	Printer qprint;
+	qprint = displayQueueValue;
+	
+	FILE *out = fopen("eemiller1.txt","w");
 	
     char *token;
     char *op;
 	char *rest;
     int ch = fgetc(q);
-    while (ch !='\n') {
+    //while (ch !='\n') {
+	while (!feof(q)) {
         while (ch !='.') {
             ch = fgetc(q);
         }
-        token = readToken(q);
+//        token = readToken(q);
+		token = readLine(q);
+		//printf("token is %s\n",token);
         op = strtok(token, "(");
 		rest = strtok(NULL, "(");
 		
-        printf("rest of token is %s\n",rest);
-        printf("operation is %s\n",op);
-		query *myQ = newQuery(op, c, print, comp);
+		//printf("the rest is %s\n",rest);
+		
+		query *myQ = newQuery(op, c, print, comp, qprint, out);
 		createQuery(myQ, rest);
-        return;
+		ch = fgetc(q);
+		//printf("next character is %d\n",ch);
+		//return;
     }
 }

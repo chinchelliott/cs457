@@ -52,6 +52,5 @@ int sizeQueue(queue *items) {
 
 //displays the queue
 void displayQueue(FILE *fp,queue *items) {
-	printf("inside display queue, size is %d", items->length);
 	displaySLL(fp,items->list);
 }

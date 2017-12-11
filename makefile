@@ -34,7 +34,7 @@ rbt.o: rbt.c rbt.h bst.h queue.h
 collection.o: collection.c collection.h rbt.h document.h queue.h
 	gcc $(OOPTS) collection.c
 
-querybuilder.o : querybuilder.c querybuilder.h collection.h document.h field.h
+querybuilder.o : querybuilder.c querybuilder.h collection.h document.h field.h queue.h
 	gcc $(OOPTS) querybuilder.c
 
 clean:

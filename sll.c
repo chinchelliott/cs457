@@ -209,7 +209,7 @@ int sizeSLL(sll *items) {
 
 //displays SLL
 void displaySLL(FILE *fp, sll *items) {
-	printf("the size of this sll is %d", items->size);
+	//printf("the size of this sll is %d", items->size);
 	sllnode *temp = malloc(sizeof(sllnode));
 	fprintf(fp,"[");
 	if (items->head == NULL) {
